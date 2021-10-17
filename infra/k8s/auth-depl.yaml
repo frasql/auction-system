@@ -17,13 +17,13 @@ spec:
           image: frasql/auth
 ---
 apiVersion: v1
-kind: service
+kind: Service
 metadata:
   name: auth-srv
 spec:
   selector:
     app: auth
-  port:
+  ports:
     - name: auth
       protocol: TCP
       port: 3000
