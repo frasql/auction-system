@@ -2,12 +2,22 @@ import request  from "supertest";
 import { app } from "../../app";
 
 
-it('returs a 201 on siccessful signup', async () => {
+it('returs a 201 on successful signup', async () => {
     return request(app)
-        .post('/api/user/signup')
+        .post('/api/users/signup')
         .send({
-            email: 'test@gmail.com',
+            email: 'blabla@gmail.com',
             password: 'password'
         })
         .expect(201);
+})
+
+it('returs a 404 invalid email', async () => {
+    return request(app)
+        .post('/api/users/signup')
+        .send({
+            email: 'blablablablabla',
+            password: 'password'
+        })
+        .expect(400);
 })
