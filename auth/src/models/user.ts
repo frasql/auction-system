@@ -19,7 +19,6 @@ interface UserDoc extends mongoose.Document {
     password: string
 }
 
-
 // user schema
 const userSchema = new mongoose.Schema({
     email: {
@@ -30,7 +29,19 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     }
+}, {
+    toJSON: {
+        // transform document -> _id = id
+        transform(doc, rec) {
+            rec.id = rec._id;
+            delete rec._id;
+            delete rec.password;
+            delete rec.__v;
+        }
+
+    }
 });
+
 
 
 userSchema.pre('save', async function(done) {
@@ -41,7 +52,7 @@ userSchema.pre('save', async function(done) {
     done();
 });
 
-userSchema.statics.create = (attrs: UserAttrs) => {
+userSchema.statics.build = (attrs: UserAttrs) => {
     return new User(attrs)
 }
 
